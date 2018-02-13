@@ -27,7 +27,7 @@
 					viewModel.locations()[i].filterResult(false);
 				}
 
-				};
+				}
 	        }
 
 		};
@@ -80,7 +80,7 @@
 				markers.push(marker);
 				// Create an onclick event to open the large infowindow at each marker.
 				marker.addListener('click', function() {
-				populateInfoWindow(this, largeInfowindow);
+					populateInfoWindow(this, largeInfowindow);
 				});
 				// Two event listeners - one for mouseover, one for mouseout,
 				// to change the colors back and forth.
@@ -145,7 +145,7 @@
 		var bounds = new google.maps.LatLngBounds();
 		// Extend the boundaries of the map for each marker and display the marker
 		for (var i = 0; i < markers.length; i++) {
-			if (viewModel.locations()[i].hideShow() && viewModel.locations()[i].filterResult() == true) {
+			if (viewModel.locations()[i].hideShow() && viewModel.locations()[i].filterResult() === true) {
 				markers[i].setMap(map);
 		  		bounds.extend(markers[i].position);
 			} else {
@@ -182,7 +182,7 @@
         // Get the address or place that the user entered.
         var address = document.getElementById('zoom-to-area-text').value;
         // Make sure the address isn't blank.
-        if (address == '') {
+        if (address === '') {
           window.alert('You must enter an area, or address.');
         } else {
           // Geocode the address/area entered to get the center. Then, center the map
