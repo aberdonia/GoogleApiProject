@@ -28,6 +28,7 @@
 
 		console.log(viewModel.locations[0].hideShow());
 
+
 		function populateList(items, listId) {
 	        // get the unordered list ('resultslist') by id
 	        var list = document.getElementById(listId);
@@ -38,6 +39,10 @@
 	            list.innerHTML += `<li id="list-item-${i}" onclick="isolate(this.id)">${items[i].title}</li>`;
 	        }
     	};
+
+
+
+
 
     	// onKeyUp event handler
 	    function search() {
@@ -82,6 +87,9 @@
 	                items[i].style.display = '';
 				    markers[i].setMap(map);
 				    bounds.extend(markers[i].position);
+				    var largeInfowindow = new google.maps.InfoWindow();
+				    populateInfoWindow(markers[i], largeInfowindow);
+				    toggleBounce(markers[i]);
 	            } else {
 	                // hide an item if it doesn't start with the search string
 	                items[i].style.display = 'none';
@@ -93,12 +101,16 @@
 
 	    populateList(model.locations, 'list');
 
+
+
 		// Need to toggle visibility of sidebar with showlist
 
 		document.getElementById('show-listings').addEventListener('click', showListings);
 		document.getElementById('hide-listings').addEventListener('click', function() {
 			hideMarkers(markers);
 		});
+
+		// OLD METHOD
 
 		// Use keyup instead of keypress for instant response instead of delayed.
 		// document.getElementById('filter-box').addEventListener('keyup', function() {
@@ -170,6 +182,8 @@
 		        });
 
 		    }
+		    // Load in listings marker, shows user options and allows animations to work on first click
+		    showListings();
 		}
 
 		function populateInfoWindow(marker, infowindow) {
@@ -218,7 +232,6 @@
 		}
 		// This function will loop through the markers array and display them all.
 		function showListings() {
-		    viewModel.showList = true;
 		    console.log("showlisting");
 		    var bounds = new google.maps.LatLngBounds();
 		    // Extend the boundaries of the map for each marker and display the marker
@@ -297,3 +310,15 @@
 		        });
 		    }
 		}
+
+		function toggleBounce(marker) {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+        // 2 sec delay before stopping
+        setTimeout(function() {
+			marker.setAnimation(null);
+		}, 2000);
+      }
