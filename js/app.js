@@ -105,9 +105,18 @@
 	    /// Code to hide sub-list
 
 	    function hideSubList () {
-		    var sub_list = document.getElementById('sub-list');
-	    	console.log(sub_list);
-	    	sub_list.style.display = 'none';
+		    var sub_list = document.getElementsByClassName('sub-list');
+	    	console.log(sub_list.length);
+	    	for (var i = sub_list.length - 1; i >= 0; i--) {
+	    		console.log(sub_list[i]);
+	    		sub_list[i].style.display = 'none';
+	    	}
+	    	// sub_list.style.display = 'none';
+	    }
+
+	    function showSubList (index_id) {
+	    	document.getElementById(`sub-list-${index_id}`).display = "";
+
 	    }
 
 
@@ -254,6 +263,7 @@
 		        }
 
 		    }
+		    hideSubList();
 		    map.fitBounds(bounds);
 		    search();
 
@@ -336,21 +346,40 @@
       		// index_id is index no
       		// itemId is id tag like "list-item-0"
       		if (document.getElementById("list-item-0") !== undefined) {
-      			"ID exists"
+      			console.log("ID exists");	
       		} else {
-      			"ID doesn't exist"
+      			console.log("ID doesn't exists");
       		}
-      	
+      	var lat = model.locations[index_id].location.lat
+      	var lng = model.locations[index_id].location.lng
+      	var ll = `${lat},${lng}`;
+      	var oauth_token = "SRHXBQQUAGGQ1BWGQD3HXMYQCURB1YVDJQEXJ5VZAGOLE2C1";
+      	var grabSubList = document.getElementById(`sub-list-${index_id}`);
+      	if (grabSubList !== null) {
+      		console.log("present");
+      		// return;
+      		if (grabSubList.style.display !== 'none') {
+      			console.log("displaying");
+      			// grabSubList.style.display = 'none';
+      			return;
+      		}
+      		else {
+      			console.log("none");
+      		}
+      		showSubList(index_id);
+      	} else {
+      		console.log("not present");
+      	}
 
 		var fourSquareApi = {
 		  "async": true,
 		  "crossDomain": true,
-		  "url": "https://api.foursquare.com/v2/venues/search?ll=40.7444883,-73.9632393&oauth_token=SRHXBQQUAGGQ1BWGQD3HXMYQCURB1YVDJQEXJ5VZAGOLE2C1&v=20180215",
+		  "url": `https://api.foursquare.com/v2/venues/search?ll=${ll}&oauth_token=${oauth_token}&v=20180215`,
 		  "method": "GET"
 		}
 
 		$.ajax(fourSquareApi).done(function (response) {
-			var append_string = `<ul id="sub-list">`;
+			var append_string = `<ul id="sub-list-${index_id}" class="sub-list">`;
 
 		  console.log(response);
 		  console.log(response.response.venues);
@@ -367,7 +396,7 @@
 		  }
 		  append_string += `</ul>`;
 		  console.log(append_string);
-		  var list = document.getElementById("list-item-0");
+		  var list = document.getElementById(`list-item-${index_id}`);
 		  // list.innerHTML += `<ul id="sub-list">`;
 		  // list.innerHTML += append_string;
 		  // list.innerHTML += `</ul>`;

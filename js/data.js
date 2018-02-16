@@ -29,7 +29,7 @@ var model = {
         {
             title: 'East Village Hip Studio',
             location: {
-                lat: 40.7281777,
+                lat: 40.7281700,
                 lng: -73.984377
             },
             hideShow: ko.observable(true),
