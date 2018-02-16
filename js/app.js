@@ -19,8 +19,8 @@
 		            } else {
 		                viewModel.locations[i].filterResult(false);
 		            }
-		        hideMarkers(markers);
-		        showListings();
+		            hideMarkers(markers);
+		            showListings();
 		        }
 		    }
 		};
@@ -30,102 +30,100 @@
 
 
 		function populateList(items, listId) {
-	        // get the unordered list ('resultslist') by id
-	        var list = document.getElementById(listId);
-	        console.log(list);
-	        console.log(items);
-	        // // add all countries to the list
-	        for (i = 0; i < items.length; i++) {
-	            list.innerHTML += `<li id="list-item-${i}" onclick="isolate(this.id)">${items[i].title}</li>`;
-	        }
-    	};
-
-
-
-
-
-    	// onKeyUp event handler
-	    function search() {
-
-	        // get the search string -> remove leading & trailing whitespaces -> make lower case
-	        let string = document.getElementById('filter-box').value.trim().toLowerCase();
-	        console.log(string);
-
-	        // get the list items in the unordered list ()
-	        const items = document.getElementById('list').getElementsByTagName('li');
-	        var bounds = new google.maps.LatLngBounds();
-	        hideMarkers(markers);
-	        for (let i = 0; i < items.length; i++) {
-
-	            //Both the search string and the item text should be lower/upper case. Otherwise the string comparison won't work properly.
-	            const itemText = items[i].textContent.toLowerCase();
-
-	            if (itemText.startsWith(string)) {
-	                // required in oreder to display the full list when the search box is empty
-	                items[i].style.display = '';
-				    markers[i].setMap(map);
-				    bounds.extend(markers[i].position);
-	            } else {
-	                // hide an item if it doesn't start with the search string
-	                items[i].style.display = 'none';
-	            }
-
+		    // get the unordered list ('resultslist') by id
+		    var list = document.getElementById(listId);
+		    console.log(list);
+		    console.log(items);
+		    // // add all countries to the list
+		    for (i = 0; i < items.length; i++) {
+		        list.innerHTML += `<li id="list-item-${i}" onclick="isolate(this.id)">${items[i].title}</li>`;
 		    }
-	    }
+		}
 
-	    function isolate(itemId, listId = 'list') {
-	    	console.log(itemId);
-	    	var index_id = Number(itemId.substr(10));
-	    	console.log(index_id);
-	    	const items = document.getElementById('list').getElementsByTagName('li');
-	        var bounds = new google.maps.LatLngBounds();
-	    	for (let i = 0; i < items.length; i++) {
-				if (i === index_id) {
-	                // this is the one to display
-	                items[i].style.display = '';
-				    markers[i].setMap(map);
-				    bounds.extend(markers[i].position);
-				    var largeInfowindow = new google.maps.InfoWindow();
-				    populateInfoWindow(markers[i], largeInfowindow);
-				    toggleBounce(markers[i]);
-	            } else {
-	                // hide an item if it doesn't start with the search string
-	                items[i].style.display = 'none';
-	            }
-	    	}
 
-	    	hideMarkers(markers, index_id);
-	    	generateSubList(index_id, itemId);
+
+
+		// onKeyUp event handler
+		function search() {
+
+		    // get the search string -> remove leading & trailing whitespaces -> make lower case
+		    let string = document.getElementById('filter-box').value.trim().toLowerCase();
+		    console.log(string);
+
+		    // get the list items in the unordered list ()
+		    const items = document.getElementById('list').getElementsByTagName('li');
+		    var bounds = new google.maps.LatLngBounds();
+		    hideMarkers(markers);
+		    for (let i = 0; i < items.length; i++) {
+
+		        //Both the search string and the item text should be lower/upper case. Otherwise the string comparison won't work properly.
+		        const itemText = items[i].textContent.toLowerCase();
+
+		        if (itemText.startsWith(string)) {
+		            // required in oreder to display the full list when the search box is empty
+		            items[i].style.display = '';
+		            markers[i].setMap(map);
+		            bounds.extend(markers[i].position);
+		        } else {
+		            // hide an item if it doesn't start with the search string
+		            items[i].style.display = 'none';
+		        }
+		    }
+		}
+
+		function isolate(itemId, listId = 'list') {
+		    console.log(itemId);
+		    var index_id = Number(itemId.substr(10));
+		    console.log(index_id);
+		    const items = document.getElementById('list').getElementsByTagName('li');
+		    var bounds = new google.maps.LatLngBounds();
+		    for (let i = 0; i < items.length; i++) {
+		        if (i === index_id) {
+		            // this is the one to display
+		            items[i].style.display = '';
+		            markers[i].setMap(map);
+		            bounds.extend(markers[i].position);
+		            var largeInfowindow = new google.maps.InfoWindow();
+		            populateInfoWindow(markers[i], largeInfowindow);
+		            toggleBounce(markers[i]);
+		        } else {
+		            // hide an item if it doesn't start with the search string
+		            items[i].style.display = 'none';
+		        }
+		    }
+
+		    hideMarkers(markers, index_id);
+		    generateSubList(index_id, itemId);
 		    map.fitBounds(bounds);
-	    }
+		}
 
-	    populateList(model.locations, 'list');
+		populateList(model.locations, 'list');
 
 
-	    /// Code to hide sub-list
+		/// Code to hide sub-list
 
-	    function hideSubList () {
+		function hideSubList() {
 		    var sub_list = document.getElementsByClassName('sub-list');
-	    	console.log(sub_list.length);
-	    	for (var i = sub_list.length - 1; i >= 0; i--) {
-	    		console.log(sub_list[i]);
-	    		sub_list[i].style.display = 'none';
-	    	}
-	    	// sub_list.style.display = 'none';
-	    }
+		    console.log(sub_list.length);
+		    for (var i = sub_list.length - 1; i >= 0; i--) {
+		        console.log(sub_list[i]);
+		        sub_list[i].style.display = 'none';
+		    }
+		    // sub_list.style.display = 'none';
+		}
 
-	    function showSubList (index_id) {
-	    	document.getElementById(`sub-list-${index_id}`).display = "";
+		function showSubList(index_id) {
+		    document.getElementById(`sub-list-${index_id}`).display = "";
 
-	    }
+		}
 
 
 		// Need to toggle visibility of sidebar with showlist
 
 		document.getElementById('show-listings').addEventListener('click', showListings);
 		document.getElementById('hide-listings').addEventListener('click', function() {
-			hideMarkers(markers);
-			hideSubList();
+		    hideMarkers(markers);
+		    hideSubList();
 		});
 
 		// OLD METHOD
@@ -223,7 +221,7 @@
 		        } else {
 		            infowindow.setContent(`<div> ${marker.title} </div><div>No Street View Found</div>`);
 		        }
-		    }
+		    };
 		    // Check to make sure the infowindow is not already opened on this marker.
 		    if (infowindow.marker != marker) {
 		        // Clear the infowindow content to give the streetview time to load.
@@ -240,7 +238,7 @@
 		        // panorama from that and set the options
 		        const getStreetView = (data, status) => {
 		            _getStreetView(data, status);
-		        }
+		        };
 		        // Use streetview service to get the closest streetview image within
 		        // 50 meters of the markers position
 		        streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
@@ -270,23 +268,24 @@
 		}
 		// This function will loop through the listings and hide them all.
 		function hideMarkers(markers, index_id) {
-			// Check if something has been passed into (index_id)
-			if (index_id !== undefined) {
-				console.log("present");
-				console.log(index_id);
-			    for (var i = 0; i < markers.length; i++) {
-		        	if (i !== index_id) {
-		        		console.log("null");
-		        		console.log(i);
+		    // Check if something has been passed into (index_id)
+		    if (index_id !== undefined) {
+		        console.log("present");
+		        console.log(index_id);
+		        for (var i = 0; i < markers.length; i++) {
+		            if (i !== index_id) {
+		                console.log("null");
+		                console.log(i);
 
-		        		markers[i].setMap(null);
-		        	}
-		    	}
-			} else {viewModel.showList = false;
-				console.log("nothing here");
-		    	for (var i = 0; i < markers.length; i++) {
-		        	markers[i].setMap(null);
-		    	}
+		                markers[i].setMap(null);
+		            }
+		        }
+		    } else {
+		        viewModel.showList = false;
+		        console.log("nothing here");
+		        for (var i = 0; i < markers.length; i++) {
+		            markers[i].setMap(null);
+		        }
 		    }
 		}
 
@@ -331,76 +330,68 @@
 		}
 
 		function toggleBounce(marker) {
-        if (marker.getAnimation() !== null) {
-          marker.setAnimation(null);
-        } else {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
-        }
-        // 2 sec delay before stopping
-        setTimeout(function() {
-			marker.setAnimation(null);
-		}, 2000);
-      	}
-
-      	function generateSubList (index_id, itemId) {
-      		// index_id is index no
-      		// itemId is id tag like "list-item-0"
-      		if (document.getElementById("list-item-0") !== undefined) {
-      			console.log("ID exists");	
-      		} else {
-      			console.log("ID doesn't exists");
-      		}
-      	var lat = model.locations[index_id].location.lat
-      	var lng = model.locations[index_id].location.lng
-      	var ll = `${lat},${lng}`;
-      	var oauth_token = "SRHXBQQUAGGQ1BWGQD3HXMYQCURB1YVDJQEXJ5VZAGOLE2C1";
-      	var grabSubList = document.getElementById(`sub-list-${index_id}`);
-      	if (grabSubList !== null) {
-      		console.log("present");
-      		// return;
-      		if (grabSubList.style.display !== 'none') {
-      			console.log("displaying");
-      			// grabSubList.style.display = 'none';
-      			return;
-      		}
-      		else {
-      			console.log("none");
-      		}
-      		showSubList(index_id);
-      	} else {
-      		console.log("not present");
-      	}
-
-		var fourSquareApi = {
-		  "async": true,
-		  "crossDomain": true,
-		  "url": `https://api.foursquare.com/v2/venues/search?ll=${ll}&oauth_token=${oauth_token}&v=20180215`,
-		  "method": "GET"
+		    if (marker.getAnimation() !== null) {
+		        marker.setAnimation(null);
+		    } else {
+		        marker.setAnimation(google.maps.Animation.BOUNCE);
+		    }
+		    // 2 sec delay before stopping
+		    setTimeout(function() {
+		        marker.setAnimation(null);
+		    }, 2000);
 		}
 
-		$.ajax(fourSquareApi).done(function (response) {
-			var append_string = `<ul id="sub-list-${index_id}" class="sub-list">`;
+		function generateSubList(index_id, itemId) {
+		    var lat = model.locations[index_id].location.lat;
+		    var lng = model.locations[index_id].location.lng;
+		    var ll = `${lat},${lng}`;
+		    var oauth_token = "SRHXBQQUAGGQ1BWGQD3HXMYQCURB1YVDJQEXJ5VZAGOLE2C1";
+		    var grabSubList = document.getElementById(`sub-list-${index_id}`);
+		    if (grabSubList !== null) {
+		        console.log("present");
+		        // return;
+		        if (grabSubList.style.display !== 'none') {
+		            console.log("displaying");
+		            // grabSubList.style.display = 'none';
+		            return;
+		        } else {
+		            console.log("none");
+		        }
+		        showSubList(index_id);
+		    } else {
+		        console.log("not present");
+		    }
 
-		  console.log(response);
-		  console.log(response.response.venues);
-		  var venues = response.response.venues;
-		  for (var i = 0; i < 5; i++) {
-		  	var name = venues[i].name;
-		  	var url = venues[i].url;
-		  	var cat = venues[i].categories[0].name;
-		  	if (url !== undefined) {
-		  		append_string += `<span>${i+1}) <a href="${url}">${name}, ${cat}</a></span><br>`;
-		  	} else {
-		  		append_string += `<span>${i+1}) ${name}, ${cat}</span><br>`;
-		  	}            
-		  }
-		  append_string += `</ul>`;
-		  console.log(append_string);
-		  var list = document.getElementById(`list-item-${index_id}`);
-		  // list.innerHTML += `<ul id="sub-list">`;
-		  // list.innerHTML += append_string;
-		  // list.innerHTML += `</ul>`;
-		  $( list ).after(append_string);
-		});
-        
-        }
+		    var fourSquareApi = {
+		        "async": true,
+		        "crossDomain": true,
+		        "url": `https://api.foursquare.com/v2/venues/search?ll=${ll}&oauth_token=${oauth_token}&v=20180215`,
+		        "method": "GET"
+		    }
+
+		    $.ajax(fourSquareApi).done(function(response) {
+		        var append_string = `<ul id="sub-list-${index_id}" class="sub-list">`;
+
+		        console.log(response);
+		        console.log(response.response.venues);
+		        var venues = response.response.venues;
+		        for (var i = 0; i < 5; i++) {
+		            var name = venues[i].name;
+		            var url = venues[i].url;
+		            var cat = venues[i].categories[0].name;
+		            if (url !== undefined) {
+		                append_string += `<span>${i+1}) <a href="${url}">${name}, ${cat}</a></span><br>`;
+		            } else {
+		                append_string += `<span>${i+1}) ${name}, ${cat}</span><br>`;
+		            }
+		        }
+		        append_string += `</ul>`;
+		        console.log(append_string);
+		        var list = document.getElementById(`list-item-${index_id}`);
+		        // list.innerHTML += `<ul id="sub-list">`;
+		        // list.innerHTML += append_string;
+		        // list.innerHTML += `</ul>`;
+		        $(list).after(append_string);
+		    });
+
+		}

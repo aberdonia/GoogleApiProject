@@ -70,3 +70,12 @@
       #zoom-to-area {
         width: 24%;
       }
+
+      @media screen and (max-width: 600px) {
+        #drawer {
+          width: 150px;
+        }
+        #map {
+          left: 172px;
+        }
+        }
