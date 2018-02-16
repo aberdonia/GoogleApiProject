@@ -71,8 +71,6 @@
 	            }
 
 		    }
-		    map.fitBounds(bounds);
-
 	    }
 
 	    function isolate(itemId, listId = 'list') {
@@ -97,10 +95,20 @@
 	    	}
 
 	    	hideMarkers(markers, index_id);
+	    	generateSubList(index_id, itemId);
+		    map.fitBounds(bounds);
 	    }
 
 	    populateList(model.locations, 'list');
 
+
+	    /// Code to hide sub-list
+
+	    function hideSubList () {
+		    var sub_list = document.getElementById('sub-list');
+	    	console.log(sub_list);
+	    	sub_list.style.display = 'none';
+	    }
 
 
 		// Need to toggle visibility of sidebar with showlist
@@ -108,6 +116,7 @@
 		document.getElementById('show-listings').addEventListener('click', showListings);
 		document.getElementById('hide-listings').addEventListener('click', function() {
 			hideMarkers(markers);
+			hideSubList();
 		});
 
 		// OLD METHOD
@@ -182,7 +191,7 @@
 		        });
 
 		    }
-		    // Load in listings marker, shows user options and allows animations to work on first click
+		    // Load in listings marker, shows user options and allows animations to work on first closeclick
 		    showListings();
 		}
 
@@ -321,4 +330,48 @@
         setTimeout(function() {
 			marker.setAnimation(null);
 		}, 2000);
-      }
+      	}
+
+      	function generateSubList (index_id, itemId) {
+      		// index_id is index no
+      		// itemId is id tag like "list-item-0"
+      		if (document.getElementById("list-item-0") !== undefined) {
+      			"ID exists"
+      		} else {
+      			"ID doesn't exist"
+      		}
+      	
+
+		var fourSquareApi = {
+		  "async": true,
+		  "crossDomain": true,
+		  "url": "https://api.foursquare.com/v2/venues/search?ll=40.7444883,-73.9632393&oauth_token=SRHXBQQUAGGQ1BWGQD3HXMYQCURB1YVDJQEXJ5VZAGOLE2C1&v=20180215",
+		  "method": "GET"
+		}
+
+		$.ajax(fourSquareApi).done(function (response) {
+			var append_string = `<ul id="sub-list">`;
+
+		  console.log(response);
+		  console.log(response.response.venues);
+		  var venues = response.response.venues;
+		  for (var i = 0; i < 5; i++) {
+		  	var name = venues[i].name;
+		  	var url = venues[i].url;
+		  	var cat = venues[i].categories[0].name;
+		  	if (url !== undefined) {
+		  		append_string += `<span>${i+1}) <a href="${url}">${name}, ${cat}</a></span><br>`;
+		  	} else {
+		  		append_string += `<span>${i+1}) ${name}, ${cat}</span><br>`;
+		  	}            
+		  }
+		  append_string += `</ul>`;
+		  console.log(append_string);
+		  var list = document.getElementById("list-item-0");
+		  // list.innerHTML += `<ul id="sub-list">`;
+		  // list.innerHTML += append_string;
+		  // list.innerHTML += `</ul>`;
+		  $( list ).after(append_string);
+		});
+        
+        }
