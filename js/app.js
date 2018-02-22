@@ -2,31 +2,8 @@
 		// These are the real estate listings that will be shown to the user.
 		// Normally we'd have these in a database instead.
 		var viewModel = {
-		    filterSearch: "",
-		    showList: false,
 		    locations: model.locations,
-		    refresh: function(filterQuery) {
-
-		        for (var i = 0; i < viewModel.locations.length; i++) {
-		            // Get the position from the location array.
-		            var filterResult = viewModel.locations[i].filterResult();
-		            var filterSearch = filterQuery;
-		            var title = viewModel.locations[i].title;
-		            console.log(filterSearch);
-		            if (title.includes(filterSearch)) {
-		                viewModel.locations[i].filterResult(true);
-
-		            } else {
-		                viewModel.locations[i].filterResult(false);
-		            }
-		            hideMarkers(markers);
-		            showListings();
-		        }
-		    }
 		};
-		ko.applyBindings(viewModel);
-
-		console.log(viewModel.locations[0].hideShow());
 
 
 		function populateList(items, listId) {
@@ -39,9 +16,7 @@
 		        list.innerHTML += `<li id="list-item-${i}" onclick="isolate(this.id)">${items[i].title}</li>`;
 		    }
 		}
-
-
-
+		
 
 		// onKeyUp event handler
 		function search() {
@@ -71,6 +46,7 @@
 		    }
 		}
 
+		// item_id is the index, listId is the html ID
 		function isolate(itemId, listId = 'list') {
 		    console.log(itemId);
 		    var index_id = Number(itemId.substr(10));
@@ -97,6 +73,7 @@
 		    map.fitBounds(bounds);
 		}
 
+		// don't put this in between functions, don't mix, put before or after
 		populateList(model.locations, 'list');
 
 
