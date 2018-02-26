@@ -6,7 +6,7 @@ var model = {
                 lng: -73.9632393
             },
             hideShow: ko.observable(true),
-            filterResult: ko.observable(true)
+            hideShowSubList: ko.observable(false)
         },
         {
             title: 'Chelsea Loft',
@@ -15,7 +15,7 @@ var model = {
                 lng: -73.9949465
             },
             hideShow: ko.observable(true),
-            filterResult: ko.observable(true)
+            hideShowSubList: ko.observable(false)
         },
         {
             title: 'Union Square Open Floor Plan',
@@ -24,7 +24,7 @@ var model = {
                 lng: -73.9895759
             },
             hideShow: ko.observable(true),
-            filterResult: ko.observable(true)
+            hideShowSubList: ko.observable(false)
         },
         {
             title: 'East Village Hip Studio',
@@ -33,7 +33,7 @@ var model = {
                 lng: -73.984377
             },
             hideShow: ko.observable(true),
-            filterResult: ko.observable(true)
+            hideShowSubList: ko.observable(false)
         },
         {
             title: 'TriBeCa Artsy Bachelor Pad',
@@ -42,7 +42,7 @@ var model = {
                 lng: -74.0089934
             },
             hideShow: ko.observable(true),
-            filterResult: ko.observable(true)
+            hideShowSubList: ko.observable(false)
         },
         {
             title: 'Chinatown Homey Space',
@@ -51,9 +51,36 @@ var model = {
                 lng: -73.9961237
             },
             hideShow: ko.observable(true),
-            filterResult: ko.observable(true)
+            hideShowSubList: ko.observable(false)
         }
-    ]
+    ],
+    venuesList: [
+	    {
+			name: ko.observable(),
+			url: ko.observable(),
+			cat: ko.observable()
+		},
+		{
+			name: ko.observable(),
+			url: ko.observable(),
+			cat: ko.observable()
+		},
+		{
+			name: ko.observable(),
+			url: ko.observable(),
+			cat: ko.observable()
+		},
+		{
+			name: ko.observable(),
+			url: ko.observable(),
+			cat: ko.observable()
+		},
+	    {
+			name: ko.observable(),
+			url: ko.observable(),
+			cat: ko.observable()
+		}
+	]
 };
 
 // Add ID to model

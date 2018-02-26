@@ -16,7 +16,7 @@
 		        list.innerHTML += `<li id="list-item-${i}" onclick="isolate(this.id)">${items[i].title}</li>`;
 		    }
 		}
-		
+
 
 		// onKeyUp event handler
 		function search() {
@@ -145,6 +145,9 @@
 		    // Create a "highlighted location" marker color for when the user
 		    // mouses over the marker.
 		    var highlightedIcon = makeMarkerIcon('FFFF24');
+		    // click on the marker.
+		    var onclickIcon = makeMarkerIcon('F00');
+
 		    // The following group uses the location array to create an array of markers on initialize.
 		    for (var i = 0; i < viewModel.locations.length; i++) {
 		        // Get the position from the location array.
@@ -170,6 +173,10 @@
 		        marker.addListener('mouseover', function() {
 		            this.setIcon(highlightedIcon);
 		        });
+		        marker.addListener('click', function() {
+		            this.setIcon(onclickIcon);
+		        });
+
 		        marker.addListener('mouseout', function() {
 		            this.setIcon(defaultIcon);
 		        });
